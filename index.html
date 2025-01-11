@@ -51,8 +51,8 @@
     <label for="distance">Afstand (in km):</label>
     <input type="number" id="distance" placeholder="Bijv. 150">
 
-    <label for="consumption">Verbruik (liters/100 km):</label>
-    <input type="number" id="consumption" step="0.1" placeholder="Bijv. 7.5">
+    <label for="kmPerLiter">Kilometers per liter:</label>
+    <input type="number" id="kmPerLiter" step="0.1" placeholder="Bijv. 15">
 
     <label for="fuelPrice">Brandstofprijs (per liter in €):</label>
     <input type="number" id="fuelPrice" step="0.01" placeholder="Bijv. 2.10">
@@ -65,15 +65,16 @@
 <script>
     function calculateCost() {
         const distance = parseFloat(document.getElementById("distance").value);
-        const consumption = parseFloat(document.getElementById("consumption").value);
+        const kmPerLiter = parseFloat(document.getElementById("kmPerLiter").value);
         const fuelPrice = parseFloat(document.getElementById("fuelPrice").value);
 
-        if (!distance || !consumption || !fuelPrice) {
+        if (!distance || !kmPerLiter || !fuelPrice) {
             document.getElementById("result").innerText = "Vul alle velden correct in!";
             return;
         }
 
-        const cost = (distance / 100) * consumption * fuelPrice;
+        const fuelNeeded = distance / kmPerLiter; // Bereken hoeveel liter nodig is
+        const cost = fuelNeeded * fuelPrice; // Bereken de kosten
         document.getElementById("result").innerText = 
             `De geschatte kosten zijn €${cost.toFixed(2)}`;
     }

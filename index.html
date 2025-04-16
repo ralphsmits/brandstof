@@ -212,30 +212,41 @@
             }
         });
 
-        function showResult() {
-            const answers = [];
-            let isFeminist = false;
-            
-            questions.forEach(question => {
-                const selected = document.querySelector(`input[name="${question.name}"]:checked`);
-                if (selected && selected.value === 'ja') {
-                    isFeminist = true;
-                }
-            });
-            
-            resultDiv.style.display = 'block';
-            
-            if (isFeminist) {
-                resultDiv.textContent = 'Je hebt feministische denkbeelden en je bent eigenlijk een feminist!';
-                resultDiv.className = 'result feminist';
-            } else {
-                resultDiv.textContent = 'Wauw, zou je dat ook tegen je moeder zeggen?';
-                resultDiv.className = 'result not-feminist';
-            }
-            
-            // Scroll to result
-            resultDiv.scrollIntoView({ behavior: 'smooth' });
+function showResult() {
+    const answers = [];
+    let isFeminist = false;
+
+    // Check of alle vragen zijn beantwoord
+    for (let question of questions) {
+        const selected = document.querySelector(`input[name="${question.name}"]:checked`);
+        if (!selected) {
+            alert('Beantwoord alle vragen voordat je het resultaat kunt zien.');
+            return; // Stop als er een onbeantwoorde vraag is
         }
+        answers.push(selected.value);
+        if (selected.value === 'ja') {
+            isFeminist = true;
+        }
+    }
+
+    resultDiv.style.display = 'block';
+
+    if (isFeminist) {
+        resultDiv.textContent = 'Je hebt feministische denkbeelden en je bent eigenlijk een feminist!';
+        resultDiv.className = 'result feminist';
+    } else {
+        resultDiv.textContent = 'Wauw, zou je dat ook tegen je moeder zeggen?';
+        resultDiv.className = 'result not-feminist';
+    }
+
+    // Scroll naar resultaat
+    resultDiv.scrollIntoView({ behavior: 'smooth' });
+
+    // Auto-redirect na 10 seconden
+    setTimeout(() => {
+        window.location.href = "https://example.com/feminist-wrapped"; // Vervang met je echte URL
+    }, 10000);
+}
     </script>
 </body>
 </html>
